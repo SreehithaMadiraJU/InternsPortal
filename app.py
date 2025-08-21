@@ -34,26 +34,21 @@ def save_corpus(intern_name, daily_log):
 
 @st.cache_resource
 def load_summarizer_model():
-    """
-    Loads the Hugging Face summarization model.
-    Using @st.cache_resource ensures the model is loaded only once.
-    """
-    model = pipeline("summarization", model="facebook/bart-large-cnn")
-    return model
+    """Load a light summarization model only once"""
+    return pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
 
-def get_ai_summary(text_log):
-    """
-    Generates a summary for the given text using a real AI model.
-    """
-    # Load the cached model
+def get_ai_summary(text):
+    """Summarize logs safely with fallback for short text"""
+    if not text or len(text.split()) < 30:
+        return "Not enough content to summarize."
     summarizer = load_summarizer_model()
-    
-    # Generate summary (setting min and max length for better results)
-    summary_result = summarizer(text_log, max_length=100, min_length=25, do_sample=False)
-    
-    # Extract just the summary text
-    return summary_result[0]['summary_text']
-
+    summary = summarizer(
+        text,
+        max_length=150,
+        min_length=40,
+        do_sample=False
+    )
+    return summary[0]['summary_text']
 
 # Sample intern data (Make sure to populate this with your actual data)
 initial_interns = [
