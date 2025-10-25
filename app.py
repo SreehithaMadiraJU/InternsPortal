@@ -1305,7 +1305,7 @@ else:
 
 # Streamlit app setup
 st.set_page_config(page_title="Intern Tracker Dashboard", layout="wide")
-st.title("Intern Exam Tracker Dashboard")
+st.title("Intern Tracker Dashboard")
 st.markdown("Track intern exam schedules and status updates")
 
 # Setup filter options if data exists, else empty lists
@@ -1668,4 +1668,5 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
